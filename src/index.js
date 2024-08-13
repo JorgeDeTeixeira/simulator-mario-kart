@@ -77,7 +77,8 @@ async function playRaceEngine(character1, character2) {
         diceResult2,
         character2.VELOCIDADE
       );
-    } else if (block === "CURVA") {
+    }
+    if (block === "CURVA") {
       totalTestSkill1 = diceResult1 + character1.MANOBRABILIDADE;
       totalTestSkill2 = diceResult2 + character2.MANOBRABILIDADE;
 
@@ -93,10 +94,21 @@ async function playRaceEngine(character1, character2) {
         diceResult2,
         character2.MANOBRABILIDADE
       );
-    } else if (block === "CONFRONTO") {
+    }
+    if (block === "CONFRONTO") {
       var powerResult1 = diceResult1 + character1.PODER;
       var powerResult2 = diceResult2 + character2.PODER;
     }
+
+    if (totalTestSkill1 > totalTestSkill2) {
+      console.log(`${character1.NOME} marcou um ponto!`);
+      character1.PONTOS++;
+    } else if (totalTestSkill2 > totalTestSkill1) {
+      `${character2.NOME} marcou um ponto!`;
+      character2.PONTOS++;
+    }
+
+    console.log("----------------------------------------------");
   }
 }
 
