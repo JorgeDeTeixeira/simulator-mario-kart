@@ -37,6 +37,10 @@ async function getRandomBlock() {
   return result;
 }
 
+async function logRollResult(characterName, block, diceResult, attibute) {
+  console.log(`${characterName} 🎲 rolou um dado de ${block} ${diceResult}`);
+}
+
 async function playRaceEngine(character1, character2) {
   for (let round = 1; round <= 5; round++) {
     console.log(`🏁 Rodada ${round}`);
@@ -57,9 +61,35 @@ async function playRaceEngine(character1, character2) {
   if (block === "RETA") {
     totalTestSkill1 = diceResult1 + character1.VELOCIDADE;
     totalTestSkill2 = diceResult2 + character2.VELOCIDADE;
+
+    await logRollResult(
+      character1.NOME,
+      "velocidade",
+      diceResult1,
+      character1.VELOCIDADE
+    );
+    await logRollResult(
+      character2.NOME,
+      "velocidade",
+      diceResult2,
+      character2.VELOCIDADE
+    );
   } else if (block === "CURVA") {
     totalTestSkill1 = diceResult1 + character1.MANOBRABILIDADE;
     totalTestSkill2 = diceResult2 + character2.MANOBRABILIDADE;
+
+    await logRollResult(
+      character1.NOME,
+      "manobrabilidade",
+      diceResult2,
+      character2.MANOBRABILIDADE
+    );
+    await logRollResult(
+      character2.NOME,
+      "manobrabilidade",
+      diceResult2,
+      character2.MANOBRABILIDADE
+    );
   } else if (block === "CONFRONTO") {
     var powerResult1 = diceResult1 + character1.PODER;
     var powerResult2 = diceResult2 + character2.PODER;
