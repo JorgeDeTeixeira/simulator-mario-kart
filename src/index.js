@@ -1,18 +1,82 @@
-const player1 = {
-  NOME: "Mario",
-  VELOCIDADE: 4,
-  MANOBRABILIDADE: 3,
-  PODER: 3,
-  PONTOS: 0,
-};
+const readline = require("readline");
 
-const player2 = {
-  NOME: "Luigi",
-  VELOCIDADE: 3,
-  MANOBRABILIDADE: 4,
-  PODER: 4,
-  PONTOS: 0,
-};
+const players = [
+  {
+    NOME: "Mario",
+    VELOCIDADE: 4,
+    MANOBRABILIDADE: 3,
+    PODER: 3,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Peach",
+    VELOCIDADE: 3,
+    MANOBRABILIDADE: 4,
+    PODER: 2,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Yoshi",
+    VELOCIDADE: 2,
+    MANOBRABILIDADE: 4,
+    PODER: 3,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Bowser",
+    VELOCIDADE: 5,
+    MANOBRABILIDADE: 2,
+    PODER: 5,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Luigi",
+    VELOCIDADE: 3,
+    MANOBRABILIDADE: 4,
+    PODER: 4,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Donkey Kong",
+    VELOCIDADE: 2,
+    MANOBRABILIDADE: 2,
+    PODER: 5,
+    PONTOS: 0,
+  },
+];
+
+const r1 = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+function selectCharacter() {
+  return new Promise((resolve, reject) => {
+    console.log("Escolha um personagem:");
+    players.forEach((player, index) => {
+      console.log(`${index + 1} - ${player.NOME}`);
+    });
+
+    r1.question("Diigte o número do personagem: ", (answer) => {
+      const index = parseInt(answer) - 1;
+      if (index >= 0 && index < players.length) {
+        const selectedPlayer = players[index];
+        console.log(`Você escolheu o personagem ${selectedPlayer.NOME}.`);
+        resolve(selectedPlayer);
+      } else {
+        console.log("Personagem inválido. Tente novamente.");
+        reject(new Error("Personagem inválido."));
+      }
+    });
+  });
+}
+
+function selectCharacterComputer() {
+  const randomIndex = Math.floor(Math.random() * players.length);
+  const selectedPlayer = players[randomIndex];
+  console.log(`O computador escolheu o personagem ${selectedPlayer.NOME}.`);
+  return selectedPlayer;
+}
 
 function rollDice() {
   return Math.floor(Math.random() * 6) + 1;
@@ -35,7 +99,7 @@ function logRollResult(characterName, block, diceResult, attibute) {
 }
 
 function playRaceEngine(character1, character2) {
-  for (let round = 1; round <= 10; round++) {
+  for (let round = 1; round <= 5; round++) {
     console.log(`🏁 Rodada ${round}`);
 
     // sortear bloco
@@ -133,6 +197,8 @@ function declareWinner(character1, character2) {
 }
 
 (async function main() {
+  const player1 = await selectCharacter();
+  const player2 = selectCharacterComputer();
   console.log(
     `🏁🚨 Corrida entre ${player1.NOME} e ${player2.NOME} começando...\n`
   );
